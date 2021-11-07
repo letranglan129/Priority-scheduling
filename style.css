@@ -7,6 +7,7 @@ fresh th {
 	text-align: left;
 	border: 1px solid black;
 	height: 400 px;
+	padding: 4px 0;
 }
 fresh td {
 	border: 1px solid black;
@@ -27,10 +28,15 @@ table {
 }
 input {
 	text-align: center;
+}
+td input {
 	display: inline-block;
 	width: 180px;
 	height: 24px;
+	outline: none;
+	border: none;
 }
+
 #curtain {
 	background-color: white;
 }
