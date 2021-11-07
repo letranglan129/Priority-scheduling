@@ -43,3 +43,7 @@ td input {
 #curtain {
 	background-color: white;
 }
+
+input[type="button"] {
+	cursor: pointer;
+}

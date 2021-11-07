@@ -2,26 +2,12 @@ recalculateServiceTime()
 $(".priority-only").hide()
 
 $(document).ready(function () {
-
 	$("input[type=radio][name=algorithm]").change(function () {
 		if (this.value == "priority") {
 			$(".priority-only").show()
 			$(".servtime").show()
-			$("#minus").css("left", "604px")
-		} else {
-			$(".priority-only").hide()
-			$(".servtime").show()
-			$("#minus").css("left", "428px")
+			$("#minus").css("left", "710px")
 		}
-
-		if (this.value == "robin") {
-			$(".servtime").hide()
-			$("#quantumParagraph").show()
-		} else {
-			$("#quantumParagraph").hide()
-			$(".servtime").show()
-		}
-
 		recalculateServiceTime()
 	})
 
@@ -38,14 +24,13 @@ function addRow() {
 		"</td><td>" +
 		(lastRowNumebr + 1) +
 		'</td><td><input class="exectime" type="text"/></td><td class="servtime"></td>' +
-		//if ($('input[name=algorithm]:checked', '#algorithm').val() == "priority")
 		'<td class="priority-only"><input type="text"/></td></tr>'
 
 	lastRow.after(newRow)
 
 	var minus = $("#minus")
 	minus.show()
-	minus.css("top", parseFloat(minus.css("top")) + 24 + "px")
+	minus.css("top", parseFloat(minus.css("top")) + 29.5 + "px")
 
 	if ($("input[name=algorithm]:checked", "#algorithm").val() != "priority")
 		$(".priority-only").hide()
@@ -60,7 +45,7 @@ function deleteRow() {
 	lastRow.remove()
 
 	var minus = $("#minus")
-	minus.css("top", parseFloat(minus.css("top")) - 24 + "px")
+	minus.css("top", parseFloat(minus.css("top")) - 29.5 + "px")
 
 	if (parseFloat(minus.css("top")) < 150) minus.hide()
 }
@@ -114,8 +99,6 @@ function recalculateServiceTime() {
 				$(value.children[4]).children().first().val()
 			)
 		})
-
-		console.log(priorities)
 
 		var currentIndex = -1
 		for (var i = 0; i < exectuteTimes.length; i++) {
@@ -250,59 +233,16 @@ function animationStep(steps, cur) {
 	}
 }
 
+
 function draw() {
 	$("fresh").html("")
 	var inputTable = $("#inputTable tr")
 	var th = ""
 	var td = ""
-
+	var executeTimes = []
 	var algorithm = $("input[name=algorithm]:checked", "#algorithm").val()
-	if (algorithm == "fcfs") {
-		$.each(inputTable, function (key, value) {
-			if (key == 0) return true
-			var executeTime = parseInt($(value.children[2]).children().first().val())
-			th +=
-				'<th style="height: 60px; width: ' +
-				executeTime * 20 +
-				'px;">P' +
-				(key) +
-				"</th>"
-			td += "<td>" + executeTime + "</td>"
-		})
 
-		$("fresh").html(
-			'<table id="resultTable"><tr>' + th + "</tr><tr>" + td + "</tr></table>"
-		)
-	} else if (algorithm == "sjf") {
-		var executeTimes = []
-
-		$.each(inputTable, function (key, value) {
-			if (key == 0) return true
-			var executeTime = parseInt($(value.children[2]).children().first().val())
-			executeTimes[key - 1] = { executeTime: executeTime, P: key - 1 }
-		})
-
-		executeTimes.sort(function (a, b) {
-			if (a.executeTime == b.executeTime) return a.P - b.P
-			return a.executeTime - b.executeTime
-		})
-
-		$.each(executeTimes, function (key, value) {
-			value.P += 1
-			th +=
-				'<th style="height: 60px; width: ' +
-				value.executeTime * 20 +
-				'px;">P' +
-				value.P +
-				"</th>"
-			td += "<td>" + value.executeTime + "</td>"
-		})
-
-		$("fresh").html(
-			'<table id="resultTable"><tr>' + th + "</tr><tr>" + td + "</tr></table>"
-		)
-	} else if (algorithm == "priority") {
-		var executeTimes = []
+	if (algorithm == "priority") {
 
 		$.each(inputTable, function (key, value) {
 			if (key == 0) return true
@@ -321,7 +261,7 @@ function draw() {
 		})
 
 		$.each(executeTimes, function (key, value) {
-			value.P += 1 ;
+			value.P += 1
 			th +=
 				'<th style="height: 60px; width: ' +
 				value.executeTime * 20 +
@@ -331,55 +271,20 @@ function draw() {
 			td += "<td>" + value.executeTime + "</td>"
 		})
 
-		$("fresh").html(
-			'<table id="resultTable" style="width: 70%"><tr>' +
-				th +
-				"</tr><tr>" +
-				td +
-				"</tr></table>"
-		)
-	} else if (algorithm == "robin") {
-		var quantum = $("#quantum").val()
-		var executeTimes = []
-
-		$.each(inputTable, function (key, value) {
-			if (key == 0) return true
-			var executeTime = parseInt($(value.children[2]).children().first().val())
-			executeTimes[key - 1] = { executeTime: executeTime, P: key - 1 }
-		})
-
-		var areWeThereYet = false
-		while (!areWeThereYet) {
-			areWeThereYet = true
-			$.each(executeTimes, function (key, value) {
-				if (value.executeTime > 0) {
-					th +=
-						'<th style="height: 60px; width: ' +
-						(value.executeTime > quantum
-							? quantum
-							: value.executeTime) *
-							20 +
-						'px;">P' +
-						value.P +
-						"</th>"
-					td +=
-						"<td>" +
-						(value.executeTime > quantum
-							? quantum
-							: value.executeTime) +
-						"</td>"
-					value.executeTime -= quantum
-					areWeThereYet = false
-				}
-			})
+		let sum = 0
+		for (let i = 0; i < executeTimes.length - 1; i++) {
+			for (let j = 0; j <= i; j++) {
+				sum += executeTimes[j].executeTime
+			}
 		}
+
+		$("#waiting-time").append(`${sum / executeTimes.length}`)
+
 		$("fresh").html(
-			'<table id="resultTable" style="width: 70%"><tr>' +
-				th +
-				"</tr><tr>" +
-				td +
-				"</tr></table>"
+			`<table id="resultTable" style="width: 70%">${th}</tr><tr>${td}</tr></table>`
 		)
 	}
 	animate()
 }
+
+
