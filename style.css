@@ -7,7 +7,6 @@ fresh th {
 	text-align: left;
 	border: 1px solid black;
 	height: 400 px;
-	padding: 4px 0;
 }
 fresh td {
 	border: 1px solid black;
@@ -15,6 +14,10 @@ fresh td {
 	/*border-right: 0;*/
 	height: 20px;
 	text-align: left;
+}
+
+#inputTable th{
+	padding: 4px 8px;
 }
 
 div th,
