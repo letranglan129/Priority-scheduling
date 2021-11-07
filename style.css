@@ -2,12 +2,6 @@ body {
 	font-family: 'Poppins', sans-serif;
 }
 
-input {
-	display: inline-block;
-	width: 180px;
-	height: 24px;
-}
-
 fresh th {
 	background: linear-gradient(WhiteSmoke, lightgray);
 	text-align: left;
@@ -33,6 +27,9 @@ table {
 }
 input {
 	text-align: center;
+	display: inline-block;
+	width: 180px;
+	height: 24px;
 }
 #curtain {
 	background-color: white;
