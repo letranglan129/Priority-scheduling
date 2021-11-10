@@ -5,7 +5,7 @@ $(document).ready(function () {
 	$("input[type=radio][name=algorithm]").change(function () {
 		if (this.value == "priority") {
 			$(".priority-only").show()
-			$(".servtime").show()
+			//$(".servtime").show()
 			$("#minus").css("left", "582px")
 		}
 		recalculateServiceTime()
