@@ -59,34 +59,7 @@ function recalculateServiceTime() {
 	var totalExectuteTime = 0
 
 	var algorithm = $("input[name=algorithm]:checked", "#algorithm").val()
-	if (algorithm == "fcfs") {
-		$.each(inputTable, function (key, value) {
-			if (key == 0) return true
-			$(value.children[3]).text(totalExectuteTime)
-
-			var executeTime = parseInt($(value.children[2]).children().first().val())
-			totalExectuteTime += executeTime
-		})
-	} else if (algorithm == "sjf") {
-		var exectuteTimes = []
-		$.each(inputTable, function (key, value) {
-			if (key == 0) return true
-			exectuteTimes[key - 1] = parseInt(
-				$(value.children[2]).children().first().val()
-			)
-		})
-
-		var currentIndex = -1
-		for (var i = 0; i < exectuteTimes.length; i++) {
-			currentIndex = findNextIndex(currentIndex, exectuteTimes)
-
-			if (currentIndex == -1) return
-
-			$(inputTable[currentIndex + 1].children[3]).text(totalExectuteTime)
-
-			totalExectuteTime += exectuteTimes[currentIndex]
-		}
-	} else if (algorithm == "priority") {
+	if (algorithm == "priority") {
 		var exectuteTimes = []
 		var priorities = []
 
@@ -110,13 +83,7 @@ function recalculateServiceTime() {
 
 			totalExectuteTime += exectuteTimes[currentIndex]
 		}
-	} else if (algorithm == "robin") {
-		$("#minus").css("left", "335px")
-		$.each(inputTable, function (key, value) {
-			if (key == 0) return true
-			$(value.children[3]).text("")
-		})
-	}
+	} 
 }
 
 function findNextIndexWithPriority(currentIndex, priorities) {
@@ -216,7 +183,6 @@ function animate() {
 		sum += Number($(this).val())
 	})
 
-	console.log($("#resultTable").width())
 	var distance = $("#curtain").css("width")
 
 	animationStep(sum, 0)
@@ -232,7 +198,6 @@ function animationStep(steps, cur) {
 	} else {
 	}
 }
-
 
 function draw() {
 	$("fresh").html("")
@@ -255,6 +220,7 @@ function draw() {
 			}
 		})
 
+		//Sort priority
 		executeTimes.sort(function (a, b) {
 			if (a.priority == b.priority) return a.P - b.P
 			return a.priority - b.priority
@@ -271,20 +237,19 @@ function draw() {
 			td += "<td>" + value.executeTime + "</td>"
 		})
 
+		//Calc avg waitting time
 		let sum = 0
 		for (let i = 0; i < executeTimes.length - 1; i++) {
 			for (let j = 0; j <= i; j++) {
 				sum += executeTimes[j].executeTime
 			}
 		}
-
 		$("#waiting-time").append(`${sum / executeTimes.length}`)
-
+		
+		//Show table
 		$("fresh").html(
 			`<table id="resultTable" style="width: 70%">${th}</tr><tr>${td}</tr></table>`
 		)
 	}
 	animate()
 }
-
-
