@@ -23,7 +23,7 @@ function addRow() {
 		(lastRowNumebr + 1) +
 		"</td><td>" +
 		(lastRowNumebr + 1) +
-		'</td><td><input class="exectime" type="text"/></td><td class="servtime"></td>' +
+		'</td><td><input class="exectime" type="text"/>' +
 		'<td class="priority-only"><input type="text"/></td></tr>'
 
 	lastRow.after(newRow)
