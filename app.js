@@ -229,12 +229,12 @@ function draw() {
 		$.each(executeTimes, function (key, value) {
 			value.P += 1
 			th +=
-				'<th style="height: 60px; width: ' +
+				'<th style="text-align: center;height: 60px; width: ' +
 				value.executeTime * 20 +
 				'px;">P' +
 				value.P +
 				"</th>"
-			td += "<td>" + value.executeTime + "</td>"
+			td += "<td style='text-align: center;'>" + value.executeTime + "</td>"
 		})
 
 		//Calc avg waitting time
