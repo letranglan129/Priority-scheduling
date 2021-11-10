@@ -1,4 +1,4 @@
-recalculateServiceTime()
+// recalculateServiceTime()
 $(".priority-only").hide()
 
 $(document).ready(function () {
@@ -8,7 +8,7 @@ $(document).ready(function () {
 			$(".servtime").show()
 			$("#minus").css("left", "710px")
 		}
-		recalculateServiceTime()
+		// recalculateServiceTime()
 	})
 
 	$("#priority").click()
@@ -35,9 +35,9 @@ function addRow() {
 	if ($("input[name=algorithm]:checked", "#algorithm").val() != "priority")
 		$(".priority-only").hide()
 
-	$("#inputTable tr:last input").change(function () {
-		recalculateServiceTime()
-	})
+	// $("#inputTable tr:last input").change(function () {
+	// 	recalculateServiceTime()
+	// })
 }
 
 function deleteRow() {
@@ -50,41 +50,41 @@ function deleteRow() {
 	if (parseFloat(minus.css("top")) < 150) minus.hide()
 }
 
-$(".initial").change(function () {
-	recalculateServiceTime()
-})
+// $(".initial").change(function () {
+// 	recalculateServiceTime()
+// })
 
-function recalculateServiceTime() {
-	var inputTable = $("#inputTable tr")
-	var totalExectuteTime = 0
+// function recalculateServiceTime() {
+// 	var inputTable = $("#inputTable tr")
+// 	var totalExectuteTime = 0
 
-	var algorithm = $("input[name=algorithm]:checked", "#algorithm").val()
-	if (algorithm == "priority") {
-		var exectuteTimes = []
-		var priorities = []
+// 	var algorithm = $("input[name=algorithm]:checked", "#algorithm").val()
+// 	if (algorithm == "priority") {
+// 		var exectuteTimes = []
+// 		var priorities = []
 
-		$.each(inputTable, function (key, value) {
-			if (key == 0) return true
-			exectuteTimes[key - 1] = parseInt(
-				$(value.children[2]).children().first().val()
-			)
-			priorities[key - 1] = parseInt(
-				$(value.children[4]).children().first().val()
-			)
-		})
+// 		$.each(inputTable, function (key, value) {
+// 			if (key == 0) return true
+// 			exectuteTimes[key - 1] = parseInt(
+// 				$(value.children[2]).children().first().val()
+// 			)
+// 			priorities[key - 1] = parseInt(
+// 				$(value.children[4]).children().first().val()
+// 			)
+// 		})
 
-		var currentIndex = -1
-		for (var i = 0; i < exectuteTimes.length; i++) {
-			currentIndex = findNextIndexWithPriority(currentIndex, priorities)
+// 		var currentIndex = -1
+// 		for (var i = 0; i < exectuteTimes.length; i++) {
+// 			currentIndex = findNextIndexWithPriority(currentIndex, priorities)
 
-			if (currentIndex == -1) return
+// 			if (currentIndex == -1) return
 
-			$(inputTable[currentIndex + 1].children[3]).text(totalExectuteTime)
+// 			$(inputTable[currentIndex + 1].children[3]).text(totalExectuteTime)
 
-			totalExectuteTime += exectuteTimes[currentIndex]
-		}
-	} 
-}
+// 			totalExectuteTime += exectuteTimes[currentIndex]
+// 		}
+// 	} 
+// }
 
 function findNextIndexWithPriority(currentIndex, priorities) {
 	var currentPriority = 1000000
