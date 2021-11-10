@@ -6,7 +6,7 @@ $(document).ready(function () {
 		if (this.value == "priority") {
 			$(".priority-only").show()
 			$(".servtime").show()
-			$("#minus").css("left", "710px")
+			$("#minus").css("left", "582px")
 		}
 		// recalculateServiceTime()
 	})
